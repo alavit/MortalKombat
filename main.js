@@ -1,5 +1,12 @@
 const $arenas = document.querySelector('.arenas');
 const $randomButton = document.querySelector('.button');
+const $formFight = document.querySelector('.control');
+const HIT = {
+  head: 30,
+  body: 25,
+  foot: 20,
+}
+const ATTACK = ['head', 'body', 'foot'];
 
 const player1 = {
   player: 1,
@@ -10,9 +17,9 @@ const player1 = {
   attack: function () {
     console.log(this.name + ' ' + 'Fight...');
   },
-  changeHP: changeHP,
-  elHP: elHP,
-  renderHP: renderHP,
+  changeHP,
+  elHP,
+  renderHP,
 };
 
 const player2 = {
@@ -24,9 +31,9 @@ const player2 = {
   attack: function () {
     console.log(this.name + ' ' + 'Fight...');
   },
-  changeHP: changeHP,
-  elHP: elHP,
-  renderHP: renderHP,
+  changeHP,
+  elHP,
+  renderHP,
 };
 
 function createElement(tag, className) {
@@ -95,9 +102,12 @@ function createReloadButton() {
   const $reloadButton = createElement('button', 'button');
   $reloadButton.innerText = 'Restart';
 
-  $reloadWrap.appendChild($reloadButton);
+  $reloadButton.addEventListener('click', function () {
+    window.location.reload();
+  });
 
-  return $reloadWrap;
+  $reloadWrap.appendChild($reloadButton);
+  $arenas.appendChild($reloadWrap);
 }
 
 $randomButton.addEventListener('click', function () {
@@ -109,11 +119,7 @@ $randomButton.addEventListener('click', function () {
 
   if (player1.hp === 0 || player2.hp === 0) {
     $randomButton.disabled = true;
-    $arenas.appendChild(createReloadButton());
-    const $reloadBtnRendered = document.querySelector('.reloadWrap .button');
-    $reloadBtnRendered.addEventListener('click', function () {
-      window.location.reload();
-    });
+    createReloadButton();
   }
 
   if (player1.hp === 0 && player1.hp < player2.hp) {
@@ -127,3 +133,35 @@ $randomButton.addEventListener('click', function () {
 
 $arenas.appendChild(createPlayer(player1));
 $arenas.appendChild(createPlayer(player2));
+
+function enemyAttack() {
+  const hit = ATTACK[generateRandomNum(3) - 1];
+  const defence = ATTACK[generateRandomNum(3) - 1];
+
+  return {
+    value: generateRandomNum(HIT[hit]),
+    hit,
+    defence,
+  }
+}
+
+$formFight.addEventListener('submit', function (e) {
+  e.preventDefault();
+  const enemy = enemyAttack();
+  const attack = {};
+  
+  for (let item of $formFight) {
+      if (item.checked && item.name === 'hit') {
+        attack.value = generateRandomNum(HIT[item.value]);
+        attack.hit = item.value;
+      }
+
+      if (item.checked && item.name === 'defence') {
+        attack.defence = item.value;
+      }
+
+      item.checked = false;
+  }
+  console.log('####: attack', attack);
+  console.log('####: enemy', enemy);
+})
