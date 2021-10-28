@@ -1,6 +1,5 @@
-import { generateRandomNum } from "./utils.js";
-import { $arenas, $formFight } from "./main.js";
-import { player1, player2, createElement } from "./player.js";
+import { generateRandomNum, createElement } from "./utils.js";
+import { $arenas, $formFight } from "./game.js";
 import { generateLogs } from "./logs.js";
 
 const HIT = {
@@ -53,7 +52,7 @@ const playerAttack = () => {
   return attack;
 };
 
-const detectWinnerAndLoser = () => {
+const detectWinnerAndLoser = (player1, player2) => {
   let resultObj = {};
 
   if (player1.hp === 0 && player1.hp < player2.hp) {
@@ -77,7 +76,7 @@ const detectWinnerAndLoser = () => {
   return resultObj;
 };
 
-const showResult = (resultObj) => {
+const showResult = (player1, player2, resultObj) => {
   if (player1.hp === 0 || player2.hp === 0) {
     $formFight.style.display = 'none';
     createReloadButton();
