@@ -97,7 +97,9 @@ const createReloadButton = () => {
   $reloadButton.innerText = 'Restart';
 
   $reloadButton.addEventListener('click', () => {
-    window.location.reload();
+    setTimeout(() => {
+        window.location.pathname = 'index.html'; 
+    }, 500);
   });
 
   $reloadWrap.appendChild($reloadButton);

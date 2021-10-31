@@ -6,6 +6,7 @@ class Player {
     this.name = props.name;
     this.hp = props.hp;
     this.img = props.img;
+    this.rootSelector = props.rootSelector;
   }
 
   changeHP = (changeValue) => {
@@ -44,7 +45,7 @@ class Player {
     $progressBar.appendChild($name);
     $character.appendChild($img);
   
-    return $player;
+    document.querySelector('.' + this.rootSelector).appendChild($player);
   };
 }
 
