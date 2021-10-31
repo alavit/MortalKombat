@@ -7,4 +7,13 @@ function getCurrentTime() {
     return `${normalize(date.getHours())}:${normalize(date.getMinutes())}`;
 }
 
-export { generateRandomNum, getCurrentTime};
+const createElement = (tag, className) => {
+    const $tag = document.createElement(tag);
+    if (className) {
+      $tag.classList.add(className);
+    }
+  
+    return $tag;
+};
+
+export { generateRandomNum, getCurrentTime, createElement};
